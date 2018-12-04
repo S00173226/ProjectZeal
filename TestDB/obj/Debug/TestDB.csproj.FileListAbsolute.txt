@@ -1,0 +1,14 @@
+C:\Users\Cahar\Documents\Third_Year\Project 300\dotnet-aspmvc5-v1\TestDB\bin\Debug\TestDB.dll.config
+C:\Users\Cahar\Documents\Third_Year\Project 300\dotnet-aspmvc5-v1\TestDB\bin\Debug\TestDB.dll
+C:\Users\Cahar\Documents\Third_Year\Project 300\dotnet-aspmvc5-v1\TestDB\bin\Debug\TestDB.pdb
+C:\Users\Cahar\Documents\Third_Year\Project 300\dotnet-aspmvc5-v1\TestDB\bin\Debug\EntityFramework.dll
+C:\Users\Cahar\Documents\Third_Year\Project 300\dotnet-aspmvc5-v1\TestDB\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Cahar\Documents\Third_Year\Project 300\dotnet-aspmvc5-v1\TestDB\bin\Debug\EntityFramework.xml
+C:\Users\Cahar\Documents\Third_Year\Project 300\dotnet-aspmvc5-v1\TestDB\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Cahar\Documents\Third_Year\Project 300\dotnet-aspmvc5-v1\TestDB\obj\Debug\TestDB.csproj.CoreCompileInputs.cache
+C:\Users\Cahar\Documents\Third_Year\Project 300\dotnet-aspmvc5-v1\TestDB\obj\Debug\TestDB.csproj.CopyComplete
+C:\Users\Cahar\Documents\Third_Year\Project 300\dotnet-aspmvc5-v1\TestDB\obj\Debug\TestDB.dll
+C:\Users\Cahar\Documents\Third_Year\Project 300\dotnet-aspmvc5-v1\TestDB\obj\Debug\TestDB.pdb
+C:\Users\Cahar\Documents\Third_Year\Project 300\dotnet-aspmvc5-v1\TestDB\obj\Debug\TestDB.Migrations.DatabaseConfigured.resources
+C:\Users\Cahar\Documents\Third_Year\Project 300\dotnet-aspmvc5-v1\TestDB\obj\Debug\TestDB.csproj.GenerateResource.cache
+C:\Users\Cahar\Documents\Third_Year\Project 300\dotnet-aspmvc5-v1\TestDB\obj\Debug\TestDB.csprojAssemblyReference.cache

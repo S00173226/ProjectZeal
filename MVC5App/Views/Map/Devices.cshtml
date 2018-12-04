@@ -1,0 +1,78 @@
+﻿
+@{
+    ViewBag.Title = "Devices";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model MVC5App.Models.DisplayLocationViewModel
+
+
+<div class="container">
+    <div class="row">
+        <div class="form-margin-top">
+            <div class="panel panel-primary col-md-11">
+                <div class="panel-heading">Map</div>
+
+                <div id="map" class="panel-body col-md-6 mr-3"></div>
+                <div class="col-md-6">
+                    @using (Html.BeginForm())
+                    {
+                        <div class="form-margin-left row ">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.Label("Device: ", new { @class = "form-margin-top" })
+                                    @Html.DropDownListFor(model => model.DeviceID, Model.Devices, "-Please Select-", new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.DeviceID)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row form-margin-left">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.Label("From Date:")
+                                    @Html.EditorFor(model => model.Start, new { htmlAttributes = new { @class = "form-control from" } })
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.Label("To Date:")
+                                    @Html.EditorFor(model => model.End, new { htmlAttributes = new { @class = "form-control to" } })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row form-margin-left">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.Label("From Time:")
+                                    @Html.TextBox("FromTime", null, new { @class = "form-control timepicker" })
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.Label("To Time:")
+                                    @Html.TextBox("ToTime", null, new { @class = "form-control timepicker" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row form-margin-left">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input class="btn btn-primary" type="submit" value="Submit" />
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+</div>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCDuiBXqhm6RmR07MY6qrz8x8qioFpRAu0&callback=initMap"
+        async defer></script>
+
+
