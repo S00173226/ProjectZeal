@@ -1,5 +1,7 @@
 ﻿using Amazon.CognitoIdentityProvider;
+using Amazon.CognitoIdentity;
 using Amazon.CognitoIdentityProvider.Model;
+using Amazon.Extensions.CognitoAuthentication;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
@@ -11,14 +13,16 @@ using System.Web;
 
 namespace MVC5App.AWSCognitoSettings
 {
-    public class CognitoUserStore : IUserStore<CognitoUser>,
-                                    IUserLockoutStore<CognitoUser, string>,
-                                    IUserTwoFactorStore<CognitoUser, string>
+    public class CognitoUserStore //: //IUserStore<CognitoUser>,
+        
+                                    //IUserLockoutStore<CognitoUser, string>,
+                                    //IUserTwoFactorStore<CognitoUser, string>
     {
         private readonly AmazonCognitoIdentityProviderClient _client =
             new AmazonCognitoIdentityProviderClient();
         private readonly string _clientId = ConfigurationManager.AppSettings["CLIENT_ID"];
         private readonly string _poolId = ConfigurationManager.AppSettings["USERPOOL_ID"];
+        
 
 
         //public async Task<SignUpResponse> CreateAsync(CognitoUser user)
@@ -43,25 +47,30 @@ namespace MVC5App.AWSCognitoSettings
         //    return response;
         //}
 
-        public Task<SignUpResponse> CreateAsync(CognitoUser user)
+        public Task<SignUpResponse> CreateAsync(string userID, string password)
         {
             // Register the user using Cognito
             var signUpRequest = new SignUpRequest
             {
-                ClientId = ConfigurationManager.AppSettings["CLIENT_ID"],
-                Password = user.Password,
-                Username = user.Email,
+                ClientId = _clientId,
+                Password = password,
+                Username = userID,
 
             };
 
             var emailAttribute = new AttributeType
             {
                 Name = "email",
-                Value = user.Email
+                Value = userID
             };
             signUpRequest.UserAttributes.Add(emailAttribute);
 
             return _client.SignUpAsync(signUpRequest);
+        }
+
+        public Task CreateAsync(CognitoUser user)
+        {
+            throw new NotImplementedException();
         }
 
         public Task DeleteAsync(CognitoUser user)
@@ -134,15 +143,34 @@ namespace MVC5App.AWSCognitoSettings
             throw new NotImplementedException();
         }
 
-        Task IUserStore<CognitoUser, string>.CreateAsync(CognitoUser user)
-        {
-            throw new NotImplementedException();
-        }
-    }
+        ////Task IUserStore<CognitoUser, string>.CreateAsync(CognitoUser user)
+        //{
+        //    throw new NotImplementedException();
+        //}
+}
 
-    public class CognitoUser : IdentityUser
+    public class CognitoUser : Amazon.Extensions.CognitoAuthentication.CognitoUser
     {
-        public string Password { get; set; }
-        public UserStatusType Status { get; set; }
+        public string Email { get; set; }
+        public string Username { get; set; }
+        public CognitoUser(string userID, string clientID, CognitoUserPool pool, AmazonCognitoIdentityProviderClient provider, string clientSecret = null, string username = null) : base(userID, clientID, pool, provider, clientSecret, username)
+        {
+            Email = userID;
+            
+            
+
+
+        }
+
+
+
+
+        ////public CognitoUser(string username, CognitoUserPool userPool, AmazonCognitoIdentityProviderClient provider)
+        ////{
+        ////    UserName = username;
+        ////    UserPool = userPool;
+        ////    Provider = provider;
+        ////}
+
     }
 }
