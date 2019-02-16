@@ -12,65 +12,44 @@ using System.Web.UI;
 using TestDB;
 using System.Configuration;
 using System.Data;
-
-
+using System.Globalization;
+using Newtonsoft.Json.Linq;
 
 
 namespace MVC5App.Controllers
 {
     public class MapController : Controller
     {
+
+
         private string dbCon = "Datasource=year3project.ceryng3iqugy.eu-west-1.rds.amazonaws.com;Initial Catalog='3rdYearProject';port=3306;username=Administrator;password=Administrator";
-        // GET: Map
-        //[Route ("Map/LocationDisplay")]
-        //public ActionResult LocationDisplay()
-        //{
-        //    int user = 1;
 
-        //    var db = new DatabaseContext();
-        //    var deviceslist = from u in db.Geolocations
-        //                  join d in db.Devices on u.DeviceID equals d.DeviceId
-        //                  where u.UserID == 2
-        //                  select new MapLocationOBJ
-        //                  {
-        //                      DeviceID = u.DeviceID,
-        //                      MacAddress = d.macAddress,
-        //                      DateAndTimeRecorded = u.DateTimeRecorded,
-        //                      Longitude = u.Longitude,
-        //                      Latitude = u.Latitude
-        //                  };
-        //    List<MapLocationOBJ> results = deviceslist.ToList();
+        private DisplayLocationViewModel model;
+        public ActionResult Devices(int? Id)
 
-        //    DeviceJsonParser(results);
 
-        //    var model = new DisplayLocationViewModel
-        //        {
-
-        //            //Devices = GetDevices(user)
-        //            //Devices = GetDevices2(results)
-        //            Devices = getDeviceList(results)
-        //        };
-        //        return View(model);
-
-        //}
-        //[Route("Map/LocationDisplay/RetrieveUserDevices")]
-        public ActionResult Devices(int? UserID = null)
         {
-            if (UserID == null)
+            //Checks If User has been logged in and valid
+            if (Id == null)
             {
-                return Redirect("/Map/UserNotFound");
+                return RedirectToAction("UserNotFound");
             }
 
             try
             {
-                var model = new DisplayLocationViewModel
+                model = new DisplayLocationViewModel
                 {
-                    Devices = DatabaseDeviceRetrieval(UserID ?? 1),
-                    Start = DateTime.Today.ToShortDateString(),
-                    End = DateTime.Today.ToShortDateString()                 
+                    Devices = DatabaseDeviceRetrieval(Id ?? 1),
+                    Start = DateTime.Today,
+                    End = DateTime.Today,
+                    UserID = Id ?? 1,
+                    JSONData = "[{\r\n   \"lng\":-7.646063 ,\r\n    \"lat\": 54.347592\r\n  }\r\n]",
                     
-                };
 
+
+
+                };
+                ViewBag.DevicesModel = model;
                 return View(model);
             }
             catch
@@ -80,6 +59,77 @@ namespace MVC5App.Controllers
             
 
         }
+        [HttpPost]
+        public ActionResult Devices(DisplayLocationViewModel FormModel)
+        {
+            if (ModelState.IsValid)
+            {  
+                try
+                {
+                    model = new DisplayLocationViewModel
+                    {
+                        Devices = DatabaseDeviceRetrieval(1),
+                        Start = DateTime.Today,
+                        End = DateTime.Today,
+                        UserID = 1,
+                        JSONData = DeviceJsonParser(GeoLocationRetrieval(FormModel))
+                        
+                    
+                    };
+
+                    
+
+                    return View(model);
+                    // return RedirectToAction("Test", FormModel);
+                }
+                catch
+                {
+                    model = new DisplayLocationViewModel
+                    {
+                        Devices = DatabaseDeviceRetrieval(1),
+                        Start = DateTime.Today,
+                        End = DateTime.Today,
+                        UserID = 1,
+                        JSONData = "[{\r\n   \"lng\":-7.646063 ,\r\n    \"lat\": 54.347592\r\n  }\r\n]",
+
+                    };
+                    return View();
+                }
+                
+                
+            }
+            model = new DisplayLocationViewModel
+            {
+                Devices = DatabaseDeviceRetrieval(1),
+                Start = DateTime.Today,
+                End = DateTime.Today,
+                UserID = 1,
+                JSONData = "[{\r\n   \"lng\":-7.646063 ,\r\n    \"lat\": 54.347592\r\n  }\r\n]",
+
+            };
+            return View();
+        }
+
+        //[HttpGet]
+        //public async Task<string> Test(DisplayLocationViewModel FormModel)
+        //{
+        //    var data = GeoLocationRetrieval(FormModel);
+            
+        //    return (DeviceJsonParser(await data));
+        //}
+
+        public ActionResult UserNotFound()
+        {
+            return View();
+        }
+
+        public ActionResult MapForm()
+        {
+            //ViewBag.Locations = DeviceJsonParser(GeoLocationRetrieval(FormModel));
+            return View();
+        }
+
+        
 
         private SelectList DatabaseDeviceRetrieval(int UserId)
         {
@@ -109,73 +159,103 @@ namespace MVC5App.Controllers
                     });
 
 
-
+                    
                 }
             }
             connection.Close();
             return  new SelectList(items, "Value" , "Text");
         }
 
-        private IEnumerable<SelectListItem> GetDevices(int UserAccount)
+        private MapLocationOBJ[] GeoLocationRetrieval(DisplayLocationViewModel MapObj)
         {
-            var db = new DatabaseContext();
-            var devices = from u in db.Geolocations
-                          join d in db.Devices on u.DeviceID equals d.DeviceId
-                          where u.UserID == UserAccount
-                          select new SelectListItem()
-                          {
-                              Value = d.DeviceId.ToString(),
-                              Text = d.macAddress
-                          };
-            //var devices = db.Devices.Select(x => new SelectListItem
-            //{
-            //    Value = x.DeviceId.ToString(),
-            //    Text = x.macAddress
-            //});
+            List<MapLocationOBJ> items = new List<MapLocationOBJ>();
+            MySqlParameter userid = new MySqlParameter("userid", MySqlDbType.Int32);
+            MySqlParameter deviceid = new MySqlParameter("deviceid", MySqlDbType.Int32);
+            MySqlParameter startdatetime = new MySqlParameter("startdatetime", MySqlDbType.DateTime);
+            MySqlParameter enddatetime = new MySqlParameter("enddatetime", MySqlDbType.DateTime);
+            MySqlConnection connection = new MySqlConnection(dbCon);
 
-            return new SelectList(devices, "Value", "Text");
-        }
+            string dateFormat = "yyyy-MM-dd";
+            string timeFormat = "HH:mm:ss";
+            userid.Value = 1;
+            deviceid.Value = MapObj.DeviceID;
+            string MySQLStartDateTime = MapObj.Start.ToString(dateFormat) + " " + MapObj.StartTime.ToString(timeFormat);
+            startdatetime.Value = MySQLStartDateTime;
+            string MySQLEndDateTime = MapObj.End.ToString(dateFormat) + " " + MapObj.EndTime.ToString(timeFormat);
+            enddatetime.Value = MySQLEndDateTime;
 
-        private IEnumerable<SelectListItem> GetDevices2(List<MapLocationOBJ> results)
-        {
-            foreach (var item in results)
+            MySqlCommand command = new MySqlCommand();
+            command.Connection = connection;
+            command.CommandType = CommandType.StoredProcedure;
+            command.CommandText = "Retrieve_Location_Data";
+            command.Parameters.Add(userid);
+            command.Parameters.Add(deviceid);
+            command.Parameters.Add(startdatetime);
+            command.Parameters.Add(enddatetime);
+
+            connection.Open();
+            MySqlDataReader reader = command.ExecuteReader();
+
+            if (reader.HasRows)
             {
-                new SelectListItem()
-                {
-                    Value = item.DeviceID.ToString(),
-                    Text = item.MacAddress
-                };
-            }
-            return new SelectList(results, "Value", "Text");
-        }
 
-        private SelectList getDeviceList(List<MapLocationOBJ> results)
-        {
-            SelectList DeviceList = new SelectList(
-                results.Select(d =>
-                new { DeviceID = d.DeviceID,
-                    MacAddress = d.MacAddress })
-                      , "DeviceID", "MacAddress");
-            return DeviceList;
+                while (reader.Read())
+                {
+                    items.Add(new MapLocationOBJ
+                    {
+                        DeviceID = int.Parse(reader["Device_ID"].ToString()),
+                        DateAndTimeRecorded = reader["Date_Time_Recorded"].ToString(),
+                        Latitude = decimal.Parse(reader["Latitude"].ToString()),
+                        Longitude = decimal.Parse(reader["Longitude"].ToString()),
+                        
+
+                    });
+
+
+
+                }
+            }
+            connection.Close();
+            MapLocationOBJ[] MapLocations = new MapLocationOBJ[items.Count];
+
+            for (int i = 0; i < MapLocations.Length; i++)
+            {
+                MapLocations[i] = items[i];
+            }
+                        
+            return MapLocations;
         }
 
         //Converts C# List of Device locations into readable json format for the GoogleMaps Javascript to read
-        private string DeviceJsonParser(List<MapLocationOBJ> DeviceLocations)
+        private string DeviceJsonParser(MapLocationOBJ[] DeviceLocations)
         {
             JsonSerializerSettings settings = new JsonSerializerSettings
             {
-                TypeNameHandling = TypeNameHandling.All
+                TypeNameHandling = TypeNameHandling.Objects,
+                MetadataPropertyHandling = MetadataPropertyHandling.Ignore
             };
 
-                string json = JsonConvert.SerializeObject(DeviceLocations, Formatting.Indented, settings);
+            
+            
+
+            string json = JsonConvert.SerializeObject(DeviceLocations, Formatting.Indented, settings);
+
+            if (json == "[]")
+            {
+                json = "[{\r\n   \"lng\":-7.646063 ,\r\n    \"lat\": 54.347592\r\n  }\r\n]";
+            }
+            
 
             return json;
         }
 
-        public ActionResult UserNotFound()
-        {
-            return View();
-        }
+        
+
+        
+
+        
+
+        
 
 
     }

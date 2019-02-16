@@ -10,7 +10,7 @@ namespace MVC5App
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js",
-                        "~/Scripts/CustomGmapsScript.js",
+                        //"~/Scripts/CustomGmapsScript.js",
                         "~/Scripts/jquery.timepicker.min.js",
                         "~/Scripts/timepicker.js",
                         "~/Scripts/jquery-ui.js",
@@ -29,8 +29,8 @@ namespace MVC5App
                       "~/Scripts/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      //"~/Content/slate.bootstrap.css",
-                      "~/Content/bootstrap.css",
+                      "~/Content/slate.bootstrap.css",
+                      //"~/Content/bootstrap.css",
                       "~/Content/jquery.timepicker.min.css",
                       "~/Content/site.css",
                       "~/Content/jquery-ui.min.css",

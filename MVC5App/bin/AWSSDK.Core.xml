@@ -2516,6 +2516,157 @@
             </summary>
             <returns>Returns true if the request has a body, else false.</returns>
         </member>
+        <member name="T:Amazon.Runtime.Internal.DiscoveryEndpointBase">
+            <summary>
+            Class containing the data for one endpoint returned from a endpoint discovery request
+            <para>
+            This class is only intended for internal use inside the AWS client libraries.
+            Callers shouldn't ever interact directly with objects of this class.
+            </para>
+            </summary>    
+        </member>
+        <member name="M:Amazon.Runtime.Internal.DiscoveryEndpointBase.#ctor(System.String,System.Int64)">
+            <summary>
+            Constructs a new DiscoveryEndpoint
+            </summary>
+            <param name="address">The address of the endpoint</param>        
+            <param name="cachePeriodInMinutes">The cache period for the endpoint in minutes</param>
+        </member>
+        <member name="P:Amazon.Runtime.Internal.DiscoveryEndpointBase.Address">
+            <summary>
+            The address of the endpoint.
+            </summary>
+        </member>
+        <member name="P:Amazon.Runtime.Internal.DiscoveryEndpointBase.CachePeriodInMinutes">
+            <summary>
+            The cache period for the endpoint in minutes
+            </summary>
+        </member>
+        <member name="M:Amazon.Runtime.Internal.DiscoveryEndpointBase.HasExpired">
+            <summary>
+            Calculates if this endpoint has expired
+            </summary>
+            <returns>A boolean value indicating if the cache period has expired</returns>
+        </member>
+        <member name="M:Amazon.Runtime.Internal.DiscoveryEndpointBase.ExtendExpiration(System.Int64)">
+            <summary>
+            Extends the endpoint expiration by the specified number of minutes from now.
+            </summary>        
+        </member>
+        <member name="T:Amazon.Runtime.Internal.DiscoveryEndpoint">
+            <summary>
+            Class containing the data for one endpoint returned from a endpoint discovery request
+            <para>
+            This class is only intended for internal use inside the AWS client libraries.
+            Callers shouldn't ever interact directly with objects of this class.
+            </para>
+            </summary>    
+        </member>
+        <member name="T:Amazon.Runtime.Internal.EndpointDiscoveryDataBase">
+            <summary>
+            Class containing the data to use with endpoint discovery
+            <para>
+            This class is only intended for internal use inside the AWS client libraries.
+            Callers shouldn't ever interact directly with objects of this class.
+            </para>
+            </summary>
+        </member>
+        <member name="P:Amazon.Runtime.Internal.EndpointDiscoveryDataBase.Required">
+            <summary>
+            Gets/sets and flag indicating if endpoint discovery is required for the request.
+            </summary>
+        </member>
+        <member name="P:Amazon.Runtime.Internal.EndpointDiscoveryDataBase.Identifiers">
+            <summary>
+            Sorted dictionary of the identifiers that must be sent with the endpoint discovery request. These
+            identifiers are used to construct the cache key for the cache that stores discovered endpoints. A
+            sorted dictionary is used instead of a dictionary to ensure the cache key comes out in the same order
+            each time it is constructed.
+            </summary>
+        </member>
+        <member name="T:Amazon.Runtime.Internal.EndpointDiscoveryData">
+            <summary>
+            Represents the data to be used with endpoint discovery operations
+            <para>
+            This class is only intended for internal use inside the AWS client libraries.
+            Callers shouldn't ever interact directly with objects of this class.
+            </para>
+            </summary>
+        </member>
+        <member name="T:Amazon.Runtime.Internal.EndpointDiscoveryResolverBase">
+            <summary>
+            Class used to resolve endpoints using Endpoint Discovery.
+            <para>
+            This class is only intended for internal use inside the AWS client libraries.
+            Callers shouldn't ever interact directly with objects of this class.
+            </para>
+            </summary>
+        </member>
+        <member name="M:Amazon.Runtime.Internal.EndpointDiscoveryResolverBase.ResolveEndpoints(Amazon.Runtime.Internal.EndpointOperationContextBase,System.Func{System.Collections.Generic.IList{Amazon.Runtime.Internal.DiscoveryEndpointBase}})">
+            <summary>
+            Method that performs endpoint discovery for the current operation
+            </summary>
+            <param name="context">Context information used in calculations for endpoint discovery</param>
+            <param name="InvokeEndpointOperation">The operation to fetch endpoints from the server</param>
+            <returns></returns>
+        </member>
+        <member name="P:Amazon.Runtime.Internal.EndpointDiscoveryResolverBase.CacheCount">
+            <summary>
+            Gets the number of cache keys in the cache
+            </summary>
+        </member>
+        <member name="T:Amazon.Runtime.Internal.EndpointDiscoveryResolver">
+            <summary>
+            Class used to resolve endpoints using Endpoint Discovery.
+            <para>
+            This class is only intended for internal use inside the AWS client libraries.
+            Callers shouldn't ever interact directly with objects of this class.
+            </para>
+            </summary>
+        </member>
+        <member name="T:Amazon.Runtime.Internal.EndpointOperationContextBase">
+            <summary>
+            Class containing context information to use with endpoint discovery
+            <para>
+            This class is only intended for internal use inside the AWS client libraries.
+            Callers shouldn't ever interact directly with objects of this class.
+            </para>
+            </summary>
+        </member>
+        <member name="P:Amazon.Runtime.Internal.EndpointOperationContextBase.CustomerCredentials">
+            <summary>
+            Gets the customer credential information.
+            </summary>
+        </member>
+        <member name="P:Amazon.Runtime.Internal.EndpointOperationContextBase.OperationName">
+            <summary>
+            Gets the operation name.
+            </summary>
+        </member>
+        <member name="P:Amazon.Runtime.Internal.EndpointOperationContextBase.EndpointDiscoveryData">
+            <summary>
+            Gets the current marshalled endpoint discovery data.
+            </summary>
+        </member>
+        <member name="P:Amazon.Runtime.Internal.EndpointOperationContextBase.EvictCacheKey">
+            <summary>
+            Gets the flag indicating if the specified key should be evicted from the cache.
+            </summary>
+        </member>
+        <member name="P:Amazon.Runtime.Internal.EndpointOperationContextBase.EvictUri">
+            <summary>
+            Gets the Uri that should be evicted if EvictCacheKey is set to true.
+            </summary>
+        </member>
+        <member name="T:Amazon.Runtime.Internal.EndpointOperationContext">
+            <summary>
+            Class containing context information to use with endpoint discovery
+            <para>
+            This class is only intended for internal use inside the AWS client libraries.
+            Callers shouldn't ever interact directly with objects of this class.
+            </para>
+            </summary>
+        </member>
         <member name="P:Amazon.Runtime.Internal.ErrorResponse.Type">
             <summary>
             Error type, one of Sender, Receiver, Unknown
@@ -2536,6 +2687,24 @@
             <summary>
             RequestId of the error.
             Only applies to XML-based services.
+            </summary>
+        </member>
+        <member name="T:Amazon.Runtime.Internal.InvokeOptionsBase">
+            <summary>
+            Class containing the members used to invoke service calls
+            <para>
+            This class is only intended for internal use inside the AWS client libraries.
+            Callers shouldn't ever interact directly with objects of this class.
+            </para>
+            </summary>
+        </member>
+        <member name="T:Amazon.Runtime.Internal.InvokeOptions">
+            <summary>
+            Class containing the members used to invoke service calls
+            <para>
+            This class is only intended for internal use inside the AWS client libraries.
+            Callers shouldn't ever interact directly with objects of this class.
+            </para>
             </summary>
         </member>
         <member name="T:Amazon.Runtime.Internal.IRequest">
@@ -3974,6 +4143,12 @@
              <param name="key"></param>
              <param name="value"></param>
         </member>
+        <member name="M:Amazon.Runtime.Internal.Util.LruCache`2.Evict(`0)">
+            <summary>
+            Evicts a specific key out of the cache if it exists
+            </summary>
+            <param name="key">the key to evict from the cache</param>        
+        </member>
         <member name="M:Amazon.Runtime.Internal.Util.LruCache`2.TryGetValue(`0,`1@)">
             <summary>
             Try to get the value associated with the key.
@@ -5249,6 +5424,37 @@
             request and response context.</param>
             <returns>A task that represents the asynchronous operation.</returns>
         </member>
+        <member name="T:Amazon.Runtime.Internal.EndpointDiscoveryHandler">
+            <summary>
+            This handler resolves the endpoint to be used for the current request.
+            </summary>
+        </member>
+        <member name="M:Amazon.Runtime.Internal.EndpointDiscoveryHandler.InvokeSync(Amazon.Runtime.IExecutionContext)">
+            <summary>
+            Calls pre invoke logic before calling the next handler 
+            in the pipeline.
+            </summary>
+            <param name="executionContext">The execution context which contains both the
+            requests and response context.</param>
+        </member>
+        <member name="M:Amazon.Runtime.Internal.EndpointDiscoveryHandler.InvokeAsync``1(Amazon.Runtime.IExecutionContext)">
+            <summary>
+            Calls pre invoke logic before calling the next handler 
+            in the pipeline.
+            </summary>
+            <typeparam name="T">The response type for the current request.</typeparam>
+            <param name="executionContext">The execution context, it contains the
+            request and response context.</param>
+            <returns>A task that represents the asynchronous operation.</returns>
+        </member>
+        <member name="M:Amazon.Runtime.Internal.EndpointDiscoveryHandler.PreInvoke(Amazon.Runtime.IExecutionContext)">
+            <summary>
+            Resolves the endpoint to be used for the current request
+            before invoking the next handler.
+            </summary>
+            <param name="executionContext">The execution context, it contains the
+            request and response context.</param>                
+        </member>
         <member name="T:Amazon.Runtime.Internal.EndpointResolver">
             <summary>
             This handler resolves the endpoint to be used for the current request.
@@ -5829,6 +6035,15 @@
             <param name="exception">The exception thrown by the previous request.</param>
             <returns>Return true if the request should be retried.</returns>
         </member>
+        <member name="M:Amazon.Runtime.Internal.DefaultRetryPolicy.RetryForExceptionSync(System.Exception,Amazon.Runtime.IExecutionContext)">
+            <summary>
+            Perform the processor-bound portion of the RetryForException logic.
+            This is shared by the sync, async, and APM versions of the RetryForException method.
+            </summary>
+            <param name="exception">The exception thrown by the previous request.</param>
+            <param name="executionContext">Request context containing the state of the request.</param>
+            <returns>Return true if the request should be retried.</returns>
+        </member>
         <member name="M:Amazon.Runtime.Internal.DefaultRetryPolicy.RetryLimitReached(Amazon.Runtime.IExecutionContext)">
             <summary>
             Checks if the retry limit is reached.
@@ -6074,11 +6289,12 @@
             </summary>
             <param name="executionContext"></param>
         </member>
-        <member name="M:Amazon.Runtime.Internal.CSMCallEventHandler.CaptureCSMCallEventExceptionData(Amazon.Runtime.IRequestContext)">
+        <member name="M:Amazon.Runtime.Internal.CSMCallEventHandler.CaptureCSMCallEventExceptionData(Amazon.Runtime.IRequestContext,System.Exception)">
             <summary>
             Method that gets invoked in case of an exception in the API request completion.
             </summary>
             <param name="requestContext"></param>
+            <param name="exception"></param>
         </member>
         <member name="M:Amazon.Runtime.Internal.RuntimeAsyncResult.Dispose(System.Boolean)">
             <summary>
@@ -6201,6 +6417,12 @@
             service client that made the request attempt.
             </summary>
         </member>
+        <member name="P:Amazon.Runtime.Internal.MonitoringAPICall.UserAgent">
+            <summary>
+            Contains the full value of the SDK's default 
+            user agent header for http requests.
+            </summary>
+        </member>
         <member name="T:Amazon.Runtime.Internal.MonitoringAPICallAttempt">
             <summary>
             Class that captures the CSM Api Call Attempt Monitoring Events
@@ -6211,12 +6433,6 @@
             <summary>
             Contains the fully-qualified domain name of the endpoint that 
             the request attempt was submitted to.
-            </summary>
-        </member>
-        <member name="P:Amazon.Runtime.Internal.MonitoringAPICallAttempt.UserAgent">
-            <summary>
-            Contains the full value of the SDK's default 
-            user agent header for http requests.
             </summary>
         </member>
         <member name="P:Amazon.Runtime.Internal.MonitoringAPICallAttempt.SessionToken">
@@ -6310,6 +6526,37 @@
             and the final attempt returned a retryable error.This entry should be
             serialized as a numeric 0/1 value. This is mapped to MaxRetriesExceeded
             when serialized to a UDP datagram.
+            </summary>
+        </member>
+        <member name="P:Amazon.Runtime.Internal.MonitoringAPICallEvent.FinalSdkExceptionMessage">
+            <summary>
+            Contains the full text (exception object
+            converted to String, for example) for an attempt-level failure that is due to
+            something other than an Aws exception that occurred on the last attempt to
+            fulfill the Api call.The value of this entry has a maximum length of 512.
+            </summary>
+        </member>
+        <member name="P:Amazon.Runtime.Internal.MonitoringAPICallEvent.FinalSdkException">
+            <summary>
+            Contains the short error name (exception
+            class name, for example) for a failure that is due to something other than an
+            Aws exception that occurred on the last attempt to fulfill an Api call.See
+            the SdkException entry for more details.The value of this entry has a
+            maximum length of 128.
+            </summary>
+        </member>
+        <member name="P:Amazon.Runtime.Internal.MonitoringAPICallEvent.FinalAWSException">
+            <summary>
+            Contains the Aws exception code
+            returned in the response to the final attempt at fulfilling this API call.
+            The value of this entry has a maximum length of 128.
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "P:Amazon.Runtime.Internal.MonitoringAPICallEvent.FinalAWSExceptionMessage" -->
+        <member name="P:Amazon.Runtime.Internal.MonitoringAPICallEvent.FinalHttpStatusCode">
+            <summary>
+            Contains the attempt's response status code, 
+            as returned by the http client.
             </summary>
         </member>
         <member name="T:Amazon.Runtime.Internal.ClientContextConfig">
@@ -6617,6 +6864,16 @@
             prefix the endpoint with the hostPrefix resulting in a final endpoint of "foo-name.service.region.amazonaws.com". Setting 
             DisableHostPrefixInjection to true will disable hostPrefix injection resulting in a final endpoint of
             "service.region.amazonaws.com" regardless of the value of hostPrefix. E.g. You may want to disable host prefix injection for testing against a local mock endpoint.
+            </summary>
+        </member>
+        <member name="P:Amazon.Runtime.ClientConfig.EndpointDiscoveryEnabled">
+            <summary>
+            Returns the flag indicating if endpoint discovery should be enabled or disabled for operations that are not required to use endpoint discovery.
+            </summary>
+        </member>
+        <member name="P:Amazon.Runtime.ClientConfig.EndpointDiscoveryCacheLimit">
+            <summary>
+            Returns the maximum number of discovered endpoints that can be stored within the cache for the client. The default limit is 1000 cache entries.
             </summary>
         </member>
         <member name="M:Amazon.Runtime.ClientConfig.ValidateTimeout(System.Nullable{System.TimeSpan})">
@@ -6927,6 +7184,11 @@
             <summary>
             The unique key for this CredentialProfile.
             This key is used by the Visual Studio Tooklit to associate external artifacts with this profile.
+            </summary>
+        </member>
+        <member name="P:Amazon.Runtime.CredentialManagement.CredentialProfile.EndpointDiscoveryEnabled">
+            <summary>
+            The endpoint discovery enabled value for this CredentialProfile
             </summary>
         </member>
         <member name="P:Amazon.Runtime.CredentialManagement.CredentialProfile.Properties">
@@ -8529,6 +8791,47 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="T:Amazon.Runtime.EnvironmentVariableAWSEndpointDiscoveryEnabled">
+            <summary>
+            Determines the endpoint discovery enabled value based on an environment variable. If no value is found in the
+            environment then an InvalidOperationException is thrown.
+            </summary>
+        </member>
+        <member name="M:Amazon.Runtime.EnvironmentVariableAWSEndpointDiscoveryEnabled.#ctor">
+            <summary>
+            Attempts to construct an instance of EnvironmentVariable AWS_ENABLED_ENDPOINT_DISCOVERY. If no value is found in the
+            environment then an InvalidOperationException is thrown.
+            </summary>
+        </member>
+        <member name="T:Amazon.Runtime.ProfileAWSEndpointDiscoveryEnabled">
+            <summary>
+            Determines endpoint discovery enabled based on a <see cref="T:Amazon.Runtime.CredentialManagement.CredentialProfile"/> stored in an <see cref="T:Amazon.Runtime.CredentialManagement.ICredentialProfileSource"/>.
+            If the profile doesn't exist or there is no endpoint discovery enabled information an InvalidOperationException is thrown.
+            </summary>
+        </member>
+        <member name="M:Amazon.Runtime.ProfileAWSEndpointDiscoveryEnabled.#ctor(Amazon.Runtime.CredentialManagement.ICredentialProfileSource)">
+             <summary>
+             Attempts to construct an instance of <see cref="T:Amazon.Runtime.ProfileAWSEndpointDiscoveryEnabled"/>.
+             If the AWS_PROFILE environment variable is set the instance will be constructed using that profile,
+             otherwise it will use the default profile.
+            
+             If the profile doesn't exist or there is no endpoint discovery enabled information an InvalidOperationException is thrown.
+             </summary>
+             <param name="source">The ICredentialProfileSource to read the profile from.</param>
+        </member>
+        <member name="M:Amazon.Runtime.ProfileAWSEndpointDiscoveryEnabled.#ctor(Amazon.Runtime.CredentialManagement.ICredentialProfileSource,System.String)">
+            <summary>
+            Attempts to construct an instance of <see cref="T:Amazon.Runtime.ProfileAWSEndpointDiscoveryEnabled"/>.
+            If the profile doesn't exist or there is no endpoint discovery enabled information an InvalidOperationException is thrown.
+            </summary>
+            <param name="source">The ICredentialProfileSource to read the profile from.</param>
+            <param name="profileName">The name of the profile.</param>
+        </member>
+        <member name="T:Amazon.Runtime.FallbackEndpointDiscoveryEnabledFactory">
+            <summary>
+            Probing mechanism to determine the endpoint discovery enabled value from various sources.
+            </summary>
+        </member>
         <member name="T:Amazon.Runtime.SigningAlgorithm">
             <summary>
             The valid hashing algorithm supported by the sdk for request signing.
@@ -9675,6 +9978,16 @@
             prefix the endpoint with the hostPrefix resulting in a final endpoint of "foo-name.service.region.amazonaws.com". Setting 
             DisableHostPrefixInjection to true will disable hostPrefix injection resulting in a final endpoint of
             "service.region.amazonaws.com" regardless of the value of hostPrefix. E.g. You may want to disable host prefix injection for testing against a local mock endpoint.
+            </summary>
+        </member>
+        <member name="P:Amazon.Runtime.IClientConfig.EndpointDiscoveryEnabled">
+            <summary>
+            Returns the flag indicating if endpoint discovery should be enabled or disabled for operations that are not required to use endpoint discovery.
+            </summary>
+        </member>
+        <member name="P:Amazon.Runtime.IClientConfig.EndpointDiscoveryCacheLimit">
+            <summary>
+            Returns the maximum number of discovered endpoints that can be stored within the cache for the client. The default limit is 1000 cache entries.
             </summary>
         </member>
         <member name="P:Amazon.Runtime.IClientConfig.TcpKeepAlive">
@@ -12932,6 +13245,11 @@
             The US West (Oregon) endpoint.
             </summary>
         </member>
+        <member name="F:Amazon.RegionEndpoint.EUNorth1">
+            <summary>
+            The EU North (Stockholm) endpoint.
+            </summary>
+        </member>
         <member name="F:Amazon.RegionEndpoint.EUWest1">
             <summary>
             The EU West (Ireland) endpoint.
@@ -12962,6 +13280,11 @@
             The Asia Pacific (Seoul) endpoint.
             </summary>
         </member>
+        <member name="F:Amazon.RegionEndpoint.APNortheast3">
+            <summary>
+            The Asia Pacific (Osaka-Local) endpoint.
+            </summary>
+        </member>
         <member name="F:Amazon.RegionEndpoint.APSouth1">
             <summary>
             The Asia Pacific (Mumbai) endpoint.
@@ -12980,6 +13303,11 @@
         <member name="F:Amazon.RegionEndpoint.SAEast1">
             <summary>
             The South America (Sao Paulo) endpoint.
+            </summary>
+        </member>
+        <member name="F:Amazon.RegionEndpoint.USGovCloudEast1">
+            <summary>
+            The US GovCloud East (Virginia) endpoint.
             </summary>
         </member>
         <member name="F:Amazon.RegionEndpoint.USGovCloudWest1">
@@ -13032,7 +13360,11 @@
             The services system name. Service system names can be obtained from the
             RegionEndpointServiceName member of the ClientConfig-derived class for the service.
             </param>
-            <exception cref="T:System.ArgumentException">Thrown when the request service does not have a valid endpoint in the region.</exception>
+            <param>
+            For forwards compatibility, if the service being requested for isn't known in the region, this method 
+            will generate an endpoint using the AWS endpoint heuristics. In this case, it is not guaranteed the
+            endpoint will point to a valid service endpoint.
+            </param>
             <returns></returns>
         </member>
         <member name="M:Amazon.RegionEndpoint.GetEndpointForService(System.String,System.Boolean)">
@@ -13047,7 +13379,11 @@
             If true a dualstack endpoint is returned. It is the user's responsibility to verify that the given service
             supports a dualstack endpoint for the region.
             </param>
-            <exception cref="T:System.ArgumentException">Thrown when the request service does not have a valid endpoint in the region.</exception>
+            <param>
+            For forwards compatibility, if the service being requested for isn't known in the region, this method 
+            will generate an endpoint using the AWS endpoint heuristics. In this case, it is not guaranteed the
+            endpoint will point to a valid service endpoint.
+            </param>
             <returns></returns>
         </member>
         <member name="T:Amazon.RegionEndpoint.Endpoint">

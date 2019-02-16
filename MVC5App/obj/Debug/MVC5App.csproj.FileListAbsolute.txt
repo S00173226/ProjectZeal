@@ -70,3 +70,14 @@ C:\Users\Cahar\Documents\Third_Year\Project 300\dotnet-aspmvc5-v1\MVC5App\bin\My
 C:\Users\Cahar\Documents\Third_Year\Project 300\dotnet-aspmvc5-v1\MVC5App\bin\MySql.Data.Entity.EF6.xml
 C:\Users\Cahar\Documents\Third_Year\Project 300\dotnet-aspmvc5-v1\MVC5App\obj\Debug\MVC5App.csprojAssemblyReference.cache
 C:\Users\Cahar\Documents\Third_Year\Project 300\dotnet-aspmvc5-v1\MVC5App\bin\Newtonsoft.Json.pdb
+C:\Users\Cahar\Documents\Third_Year\Project 300\dotnet-aspmvc5-v1\MVC5App\bin\AWSSDK.CognitoIdentity.dll
+C:\Users\Cahar\Documents\Third_Year\Project 300\dotnet-aspmvc5-v1\MVC5App\bin\AWSSDK.CognitoIdentityProvider.dll
+C:\Users\Cahar\Documents\Third_Year\Project 300\dotnet-aspmvc5-v1\MVC5App\bin\AWSSDK.Extensions.CognitoAuthentication.dll
+C:\Users\Cahar\Documents\Third_Year\Project 300\dotnet-aspmvc5-v1\MVC5App\bin\AWSSDK.SecurityToken.dll
+C:\Users\Cahar\Documents\Third_Year\Project 300\dotnet-aspmvc5-v1\MVC5App\bin\AWSSDK.CognitoIdentity.pdb
+C:\Users\Cahar\Documents\Third_Year\Project 300\dotnet-aspmvc5-v1\MVC5App\bin\AWSSDK.CognitoIdentity.xml
+C:\Users\Cahar\Documents\Third_Year\Project 300\dotnet-aspmvc5-v1\MVC5App\bin\AWSSDK.CognitoIdentityProvider.pdb
+C:\Users\Cahar\Documents\Third_Year\Project 300\dotnet-aspmvc5-v1\MVC5App\bin\AWSSDK.CognitoIdentityProvider.xml
+C:\Users\Cahar\Documents\Third_Year\Project 300\dotnet-aspmvc5-v1\MVC5App\bin\AWSSDK.Extensions.CognitoAuthentication.pdb
+C:\Users\Cahar\Documents\Third_Year\Project 300\dotnet-aspmvc5-v1\MVC5App\bin\AWSSDK.SecurityToken.pdb
+C:\Users\Cahar\Documents\Third_Year\Project 300\dotnet-aspmvc5-v1\MVC5App\bin\AWSSDK.SecurityToken.xml
