@@ -25,5 +25,44 @@ namespace MVC5App.Models
         public string JSONData { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
+
+
+        public DisplayLocationViewModel()
+        {
+            List<SelectListItem> devices = new List<SelectListItem>();
+            devices.Add(new SelectListItem
+            {
+                Text = "No Devices Found",
+                Value = "1"
+                });
+            Devices = new SelectList(devices, "Value", "Text");
+            
+            Start = DateTime.Today;
+            End = DateTime.Today;
+            JSONData = "{\"message\": \"DummyData\", \"data\":[{\r\n   \"Longitude\":-7.646063 ,\r\n    \"Latitude\": 54.347592\r\n  }\r\n]}";
+        }
+
+        public DisplayLocationViewModel( int userID, IEnumerable<SelectListItem> devices)
+        {
+            Devices = devices;
+            UserID = userID;
+            Start = DateTime.Today;
+            End = DateTime.Today;
+            JSONData = "{\"message\": \"DummyData\", \"data\":[{\r\n   \"Longitude\":-7.646063 ,\r\n    \"Latitude\": 54.347592\r\n  }\r\n]}";
+        }
+
+        public DisplayLocationViewModel(int userID, IEnumerable<SelectListItem> devices, string jsonData)
+        {
+            Devices = devices;
+            UserID = userID;
+            Start = DateTime.Today;
+            End = DateTime.Today;
+            JSONData = jsonData;
+        }
+
+        public DisplayLocationViewModel(int userID)
+        {
+            UserID = userID;
+        }
     }
 }

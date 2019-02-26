@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using MVC5App.AWSCognitoSettings;
+using MVC5App.Data;
 using MVC5App.Models;
 
 namespace MVC5App.Controllers
@@ -18,7 +19,7 @@ namespace MVC5App.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
-        private CognitoUserManager _cogUserManager;
+        private CognitoUserManager _cMan = new CognitoUserManager();
 
         public AccountController()
         {
@@ -29,6 +30,8 @@ namespace MVC5App.Controllers
             UserManager = userManager;
             SignInManager = signInManager;
         }
+
+        
 
         public ApplicationSignInManager SignInManager
         {
@@ -95,43 +98,60 @@ namespace MVC5App.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
+        
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
-            CognitoUserManager cMan = new CognitoUserManager();
+            //CognitoUserManager cMan = new CognitoUserManager();
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await cMan.GetCredsAsync(model.Email, model.Password); ;
-            if(result)
+            var result = await _cMan.GetCredsAsync(model.Email, model.Password); ;
+            if(result == null)
             {
                 return RedirectToLocal(returnUrl);
             }
+            int? userid = new DataAPIRepository().APIUserRecordID(model.Email).Result;
+            if (userid == null)
+            {
 
-            return View(model);
+            }
+            AuthenticationProperties options = new AuthenticationProperties();
+
+            options.AllowRefresh = true;
+            options.IsPersistent = true;
+
+            var claims = new[]
+            {
+                new Claim(ClaimTypes.Name, model.Email),
+                new Claim("AccessToken", string.Format("Bearer {0}", result)),
+                new Claim("UserID", string.Format(userid.ToString()))
+            };
+
+            var identity = new ClaimsIdentity(claims, "ApplicationCookie");
+
+            Request.GetOwinContext().Authentication.SignIn(options, identity);
+
+             
+            return RedirectToAction("Index", "Home");
         }
 
         //
         // GET: /Account/VerifyCode
         [AllowAnonymous]
-        public async Task<ActionResult> VerifyCode(string provider, string returnUrl, bool rememberMe)
+        public async Task<ActionResult> VerifyCode()
         {
             // Require that the user has already logged in via username/password or external login
-            if (!await SignInManager.HasBeenVerifiedAsync())
-            {
-                return View("Error");
-            }
-            return View(new VerifyCodeViewModel { Provider = provider, ReturnUrl = returnUrl, RememberMe = rememberMe });
+            
+            return View();
         }
 
         //
         // POST: /Account/VerifyCode
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
         public async Task<ActionResult> VerifyCode(VerifyCodeViewModel model)
         {
             if (!ModelState.IsValid)
@@ -143,18 +163,12 @@ namespace MVC5App.Controllers
             // If a user enters incorrect codes for a specified amount of time then the user account 
             // will be locked out for a specified amount of time. 
             // You can configure the account lockout settings in IdentityConfig
-            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent:  model.RememberMe, rememberBrowser: model.RememberBrowser);
-            switch (result)
-            {
-                case SignInStatus.Success:
-                    return RedirectToLocal(model.ReturnUrl);
-                case SignInStatus.LockedOut:
-                    return View("Lockout");
-                case SignInStatus.Failure:
-                default:
-                    ModelState.AddModelError("", "Invalid code.");
-                    return View(model);
-            }
+            var result = await _cMan.VerifyUser(model.Code, model.Email);
+            if (result != false)
+                return RedirectToAction("Index", "Home");
+
+            return View(model);
+
         }
 
         //
@@ -211,7 +225,7 @@ namespace MVC5App.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
+        
         public ActionResult Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
@@ -221,7 +235,7 @@ namespace MVC5App.Controllers
                 string userID = model.Email;
                 var result = cstore.CreateAsync(userID, model.Password);
 
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("VerifyCode", "Account");
             }
             return View();
         }
@@ -442,10 +456,10 @@ namespace MVC5App.Controllers
         //
         // POST: /Account/LogOff
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        
         public ActionResult LogOff()
         {
-            AuthenticationManager.SignOut();
+            Request.GetOwinContext().Authentication.SignOut("ApplicationCookie");
             return RedirectToAction("Index", "Home");
         }
 

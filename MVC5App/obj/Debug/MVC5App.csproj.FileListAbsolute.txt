@@ -81,3 +81,17 @@ C:\Users\Cahar\Documents\Third_Year\Project 300\dotnet-aspmvc5-v1\MVC5App\bin\AW
 C:\Users\Cahar\Documents\Third_Year\Project 300\dotnet-aspmvc5-v1\MVC5App\bin\AWSSDK.Extensions.CognitoAuthentication.pdb
 C:\Users\Cahar\Documents\Third_Year\Project 300\dotnet-aspmvc5-v1\MVC5App\bin\AWSSDK.SecurityToken.pdb
 C:\Users\Cahar\Documents\Third_Year\Project 300\dotnet-aspmvc5-v1\MVC5App\bin\AWSSDK.SecurityToken.xml
+C:\Users\Cahar\Documents\Third_Year\Project 300\dotnet-aspmvc5-v1\MVC5App\bin\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\Cahar\Documents\Third_Year\Project 300\dotnet-aspmvc5-v1\MVC5App\bin\Microsoft.IdentityModel.Logging.dll
+C:\Users\Cahar\Documents\Third_Year\Project 300\dotnet-aspmvc5-v1\MVC5App\bin\Microsoft.IdentityModel.Tokens.dll
+C:\Users\Cahar\Documents\Third_Year\Project 300\dotnet-aspmvc5-v1\MVC5App\bin\Microsoft.Owin.Security.Jwt.dll
+C:\Users\Cahar\Documents\Third_Year\Project 300\dotnet-aspmvc5-v1\MVC5App\bin\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\Cahar\Documents\Third_Year\Project 300\dotnet-aspmvc5-v1\MVC5App\bin\Microsoft.IdentityModel.JsonWebTokens.pdb
+C:\Users\Cahar\Documents\Third_Year\Project 300\dotnet-aspmvc5-v1\MVC5App\bin\Microsoft.IdentityModel.JsonWebTokens.xml
+C:\Users\Cahar\Documents\Third_Year\Project 300\dotnet-aspmvc5-v1\MVC5App\bin\Microsoft.IdentityModel.Logging.pdb
+C:\Users\Cahar\Documents\Third_Year\Project 300\dotnet-aspmvc5-v1\MVC5App\bin\Microsoft.IdentityModel.Logging.xml
+C:\Users\Cahar\Documents\Third_Year\Project 300\dotnet-aspmvc5-v1\MVC5App\bin\Microsoft.IdentityModel.Tokens.pdb
+C:\Users\Cahar\Documents\Third_Year\Project 300\dotnet-aspmvc5-v1\MVC5App\bin\Microsoft.IdentityModel.Tokens.xml
+C:\Users\Cahar\Documents\Third_Year\Project 300\dotnet-aspmvc5-v1\MVC5App\bin\Microsoft.Owin.Security.Jwt.xml
+C:\Users\Cahar\Documents\Third_Year\Project 300\dotnet-aspmvc5-v1\MVC5App\bin\System.IdentityModel.Tokens.Jwt.pdb
+C:\Users\Cahar\Documents\Third_Year\Project 300\dotnet-aspmvc5-v1\MVC5App\bin\System.IdentityModel.Tokens.Jwt.xml
