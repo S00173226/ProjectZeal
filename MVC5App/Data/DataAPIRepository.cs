@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using MVC5App.DTO;
 using MVC5App.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -89,13 +91,34 @@ namespace MVC5App.Data
                     appUserID = JsonParser(dbUserID, 2).UserID;
                     return appUserID;
                 }
-                catch (Exception e)
+                catch
                 {
-                    throw e;
+                    //'0' Corrolates to User Does not exist in database
+                    return 0;
                 }
             }
 
             
+        }
+
+        public void UserCreation(RegisterViewModel registerViewModel)
+        {
+            if (APIUserRecordID(registerViewModel.Email).Result == 0)
+            {
+                using (var client = new HttpClient())
+                {
+                    try
+                    {
+                        StringContent stringContent = new StringContent(ConvertToJson(registerViewModel), Encoding.UTF8, "application/json");
+                        string ApiPost = string.Format("{0}/user", APIEndPoint);
+                        client.PostAsync(ApiPost, stringContent);
+                    }
+                    catch (Exception e)
+                    {
+                        throw e;
+                    }
+                }
+            }
         }
 
         public DisplayLocationViewModel JsonParser(string json, int methodUsed)
@@ -138,6 +161,29 @@ namespace MVC5App.Data
             return new DisplayLocationViewModel();
         }
 
+        public string ConvertToJson(RegisterViewModel registerViewModel)
+        {
+            UserCreateDTO user = new UserCreateDTO
+            {
+                roleID = 1,
+                FirstName = registerViewModel.FirstName,
+                LastName = registerViewModel.SecondName,
+                Address1 = registerViewModel.Address1,
+                Address2 = registerViewModel.Address2,
+                Address3 = registerViewModel.Address3,
+                County = registerViewModel.County,
+                ContactNo = registerViewModel.ContactNo,
+                email = registerViewModel.Email
+            };
+            JsonSerializerSettings settings = new JsonSerializerSettings
+            {
+                //TypeNameHandling = TypeNameHandling.Objects,
+                MetadataPropertyHandling = MetadataPropertyHandling.Ignore,
+                
+            };
+            string json = JsonConvert.SerializeObject(user, Formatting.Indented, settings);
+            return json;
+        }
         //        //MapLocationOBJ[] MapLocations = new MapLocationOBJ[items.Count];
 
         //        //for (int i = 0; i < MapLocations.Length; i++)
@@ -149,26 +195,26 @@ namespace MVC5App.Data
         //        return
         //    }
 
-        //    private string DeviceJsonParser(MapLocationOBJ[] DeviceLocations)
+        //private string DeviceJsonParser(MapLocationOBJ[] DeviceLocations)
+        //{
+        //    JsonSerializerSettings settings = new JsonSerializerSettings
         //    {
-        //        JsonSerializerSettings settings = new JsonSerializerSettings
-        //        {
-        //            TypeNameHandling = TypeNameHandling.Objects,
-        //            MetadataPropertyHandling = MetadataPropertyHandling.Ignore
-        //        };
+        //        TypeNameHandling = TypeNameHandling.Objects,
+        //        MetadataPropertyHandling = MetadataPropertyHandling.Ignore
+        //    };
 
 
 
 
-        //        string json = JsonConvert.SerializeObject(DeviceLocations, Formatting.Indented, settings);
+        //    string json = JsonConvert.SerializeObject(DeviceLocations, Formatting.Indented, settings);
 
-        //        if (json == "[]")
-        //        {
-        //            json = "[{\r\n   \"lng\":-7.646063 ,\r\n    \"lat\": 54.347592\r\n  }\r\n]";
-        //        }
-
-
-        //        return json;
+        //    if (json == "[]")
+        //    {
+        //        json = "[{\r\n   \"lng\":-7.646063 ,\r\n    \"lat\": 54.347592\r\n  }\r\n]";
         //    }
+
+
+        //    return json;
+        //}
     }
     }

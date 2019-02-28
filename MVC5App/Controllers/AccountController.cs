@@ -127,7 +127,7 @@ namespace MVC5App.Controllers
             {
                 new Claim(ClaimTypes.Name, model.Email),
                 new Claim("AccessToken", string.Format("Bearer {0}", result)),
-                new Claim("UserID", string.Format(userid.ToString()))
+                new Claim("UserID", userid.ToString())
             };
 
             var identity = new ClaimsIdentity(claims, "ApplicationCookie");
@@ -234,6 +234,8 @@ namespace MVC5App.Controllers
 
                 string userID = model.Email;
                 var result = cstore.CreateAsync(userID, model.Password);
+
+                new DataAPIRepository().UserCreation(model);
 
                 return RedirectToAction("VerifyCode", "Account");
             }

@@ -82,17 +82,29 @@
     
     function initMap() {     
 
-
-        var map = new google.maps.Map(document.getElementById('map'),
-            {
-                center: {
-                    lat: Number.parseFloat(obj.data[0].Latitude),
-                    lng: Number.parseFloat(obj.data[0].Longitude)
-                },
-                zoom: 10,
-                mapTypeId: google.maps.MapTypeId.ROADMAP
-            });
-
+        try {
+            var map = new google.maps.Map(document.getElementById('map'),
+                {
+                    center: {
+                        lat: Number.parseFloat(obj.data[0].Latitude),
+                        lng: Number.parseFloat(obj.data[0].Longitude)
+                    },
+                    zoom: 10,
+                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                });
+        }
+        catch
+        {
+            var map = new google.maps.Map(document.getElementById('map'),
+                {
+                    center: {
+                        lat: 54.347592,
+                        lng: -7.646063
+                    },
+                    zoom: 10,
+                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                });
+        }
         var infoWindow = new google.maps.InfoWindow({});
 
         var marker, i;

@@ -30,11 +30,11 @@ namespace MVC5App.Controllers
         private DisplayLocationViewModel model;
         
         
-        public ActionResult Devices(int? Id)
-
-
+        public ActionResult Devices()
         {
             //Checks If User has been logged in and valid
+            var identity = (ClaimsIdentity)User.Identity;
+            int? Id = int.Parse(identity.FindFirst("UserID").Value);
             if (Id == null)
             {
                 return RedirectToAction("UserNotFound");
@@ -78,18 +78,8 @@ namespace MVC5App.Controllers
                     var identity = (ClaimsIdentity)User.Identity;
                     
                     var res =  new DataAPIRepository().APIUserRecordID(identity.Name).Result;
-                    FormModel.UserID = res;
+                    FormModel.UserID = int.Parse(identity.FindFirst("UserID").Value);
                     model = dataRepo.APIGeoLocationRetrieval(FormModel).Result;
-                    //model = new DisplayLocationViewModel
-                    //{
-                    //    Devices = FormModel.Devices,
-                    //    Start = DateTime.Today,
-                    //    End = DateTime.Today,
-                    //    UserID = 1,
-                    //    JSONData = DeviceJsonParser(GeoLocationRetrieval(FormModel))
-
-
-                    //};
 
 
                     
@@ -104,25 +94,18 @@ namespace MVC5App.Controllers
                 
                 
             }
-            model = new DisplayLocationViewModel
-            {
-                Devices = DatabaseDeviceRetrieval(1),
-                Start = DateTime.Today,
-                End = DateTime.Today,
-                UserID = 1,
-                JSONData = "[{\r\n   \"lng\":-7.646063 ,\r\n    \"lat\": 54.347592\r\n  }\r\n]",
+            //model = new DisplayLocationViewModel
+            //{
+            //    Devices = DatabaseDeviceRetrieval(1),
+            //    Start = DateTime.Today,
+            //    End = DateTime.Today,
+            //    UserID = 1,
+            //    JSONData = "[{\r\n   \"lng\":-7.646063 ,\r\n    \"lat\": 54.347592\r\n  }\r\n]",
 
-            };
+            //};
             return View();
         }
 
-        //[HttpGet]
-        //public async Task<string> Test(DisplayLocationViewModel FormModel)
-        //{
-        //    var data = GeoLocationRetrieval(FormModel);
-            
-        //    return (DeviceJsonParser(await data));
-        //}
 
         public ActionResult UserNotFound()
         {

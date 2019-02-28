@@ -71,6 +71,14 @@ namespace MVC5App.Models
         public string Email { get; set; }
 
         [Required]
+        [Display(Name = "First Name")]
+        public string FirstName { get; set; }
+
+        [Required]
+        [Display(Name = "Second Name")]
+        public string SecondName { get; set; }
+
+        [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
@@ -80,6 +88,25 @@ namespace MVC5App.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        
+        [Display(Name = "Address1")]
+        public string Address1 { get; set; }
+
+        
+        [Display(Name = "Address2")]
+        public string Address2 { get; set; }
+
+        
+        [Display(Name = "Address3")]
+        public string Address3 { get; set; }
+
+        
+        [Display(Name = "County")]
+        public string County { get; set; }
+
+        [Display(Name = "Phone Number")]
+        public string ContactNo { get; set; }
     }
 
     public class ResetPasswordViewModel
