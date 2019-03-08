@@ -2,6 +2,7 @@
 @{
     ViewBag.Title = "Devices";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Test = ViewBag.DeviceList;
 }
 @model MVC5App.Models.DisplayLocationViewModel
 
@@ -16,6 +17,7 @@
                 <div class="col-md-6">
                     @using (Html.BeginForm("Devices","Map"))
                     {
+                        
                         <div class="form-margin-left row ">
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -80,31 +82,43 @@
     
     function initMap() {     
 
-
-        var map = new google.maps.Map(document.getElementById('map'),
-            {
-                center: {
-                    lat: obj[0].lat,
-                    lng: obj[0].lng
-                },
-                zoom: 10,
-                mapTypeId: google.maps.MapTypeId.ROADMAP
-            });
-
+        try {
+            var map = new google.maps.Map(document.getElementById('map'),
+                {
+                    center: {
+                        lat: Number.parseFloat(obj.data[0].Latitude),
+                        lng: Number.parseFloat(obj.data[0].Longitude)
+                    },
+                    zoom: 10,
+                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                });
+        }
+        catch
+        {
+            var map = new google.maps.Map(document.getElementById('map'),
+                {
+                    center: {
+                        lat: 54.347592,
+                        lng: -7.646063
+                    },
+                    zoom: 10,
+                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                });
+        }
         var infoWindow = new google.maps.InfoWindow({});
 
         var marker, i;
-        if (obj[0].deviceID != null) {
-            for (i = 0; i < obj.length; i++) {
+        if (obj.data[0].Device_ID != null) {
+            for (i = 0; i < obj.data.length; i++) {
                 marker = new google.maps.Marker({
-                    position: new google.maps.LatLng(obj[i].lat, obj[i].lng),
+                    position: new google.maps.LatLng(Number.parseFloat(obj.data[i].Latitude), Number.parseFloat(obj.data[i].Longitude)),
                     map: map
                 });
 
                 google.maps.event.addListener(marker, 'click', (function (marker, i) {
                     return function () {
 
-                        infoWindow.setContent("Device ID: " + obj[i].deviceID.toString() + "<br> Device Name: " + obj[i].deviceName + "<br> DateTime: " + obj[i].date + "<br> Lat: " + obj[i].lat + "<br> Lng: " + obj[i].lng);
+                        infoWindow.setContent("Device ID: " + obj.data[i].Device_ID.toString() + "<br> Device Name: " + obj.data[i].deviceName + "<br> DateTime: " + obj.data[i].Date_Time_Recorded + "<br> Lat: " + obj.data[i].Latitude + "<br> Lng: " + obj.data[i].Longitude);
                         infoWindow.open(map, marker);
                     }
                 })(marker, i));

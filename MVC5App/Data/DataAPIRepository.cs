@@ -19,9 +19,6 @@ namespace MVC5App.Data
         //private readonly string APIEndPoint = "http://localhost:3000";
         private static IEnumerable<SelectListItem> deviceListStore;
         public async Task<DisplayLocationViewModel> APIDevices(int UserID)
-
-
-
         {
             string devicesString;
             using (var client = new HttpClient())
@@ -50,10 +47,14 @@ namespace MVC5App.Data
             
             return new DisplayLocationViewModel();
         }
+        public IEnumerable<SelectListItem> getDeviceliststore()
+        {
+            return deviceListStore;
+        }
 
         public async Task<DisplayLocationViewModel> APIGeoLocationRetrieval(DisplayLocationViewModel MapObj)
         {
-            string dateFormat = "yyyy-MM-dd";
+            string dateFormat = "dd,MM,yyyy";
             string timeFormat = "HH:mm:ss";
             string APIStartDateTime = MapObj.Start.ToString(dateFormat) + " " + MapObj.StartTime.ToString(timeFormat);
             string APIEndDateTime = MapObj.End.ToString(dateFormat) + " " + MapObj.EndTime.ToString(timeFormat);
@@ -155,10 +156,41 @@ namespace MVC5App.Data
                 case 2:
                     userID = listItems.data[0].User_ID;
                     return new DisplayLocationViewModel(userID);
+
                 default:
                     break;
             }
             return new DisplayLocationViewModel();
+        }
+
+        public UserInfoModel JsonParser(string json)
+        {
+            JsonSerializerSettings settings = new JsonSerializerSettings
+            {
+                TypeNameHandling = TypeNameHandling.All
+            };
+           
+            dynamic listItems = JObject.Parse(json);
+            UserInfoModel userInfo = new UserInfoModel();
+            userInfo.UserID = listItems.data[0].User_ID;
+            userInfo.Name = String.Format("{0} {1}", listItems.data[0].First_Name, listItems.data[0].Last_Name);
+            if (userInfo.Name == null)
+                userInfo.Name = "John Doe";
+            userInfo.Address1 = listItems.data[0].Address_1;
+            if (userInfo.Address1 == null)
+                userInfo.Address1 = "No Address Line";
+            userInfo.Address2 = listItems.data[0].Address_2;
+            if (userInfo.Address2 == null)
+                userInfo.Address2 = "No Address Line";
+            userInfo.Address3 = listItems.data[0].Address_3;
+            if (userInfo.Address3 == null)
+                userInfo.Address3 = "No Address Line";
+            userInfo.UserEmail = listItems.data[0].Email;
+
+            userInfo.ContactNo = listItems.data[0].Contact_No;
+            if (userInfo.ContactNo == null)
+                userInfo.ContactNo = "No Contact Number";
+            return userInfo;
         }
 
         public string ConvertToJson(RegisterViewModel registerViewModel)
@@ -183,6 +215,37 @@ namespace MVC5App.Data
             };
             string json = JsonConvert.SerializeObject(user, Formatting.Indented, settings);
             return json;
+        }
+
+        public UserInfoModel APIUserInfo(int UserID)
+        {
+            string devicesString;
+            using (var client = new HttpClient())
+            {
+                string userInfoJson;
+
+                try
+                {
+                    var raw = client.GetStringAsync(APIEndPoint + "/userInfo/" + UserID).Result;
+                    userInfoJson = raw;
+                    devicesString = userInfoJson.ToString();
+                    if (userInfoJson != null)
+                    {
+                        UserInfoModel model = JsonParser(userInfoJson);
+                        model.Devices = APIDevices(UserID).Result.Devices;
+                        
+                        return model;
+                    }
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+
+            }
+
+            return new UserInfoModel();
+            
         }
         //        //MapLocationOBJ[] MapLocations = new MapLocationOBJ[items.Count];
 

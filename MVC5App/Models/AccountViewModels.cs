@@ -79,9 +79,9 @@ namespace MVC5App.Models
         public string SecondName { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
+        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#$^+=!*()@%&]).{8}$", ErrorMessage ="Password must contain at least 8 characters and a number, special, upper and lower case characters")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]

@@ -1,7 +1,9 @@
-﻿using MVC5App.Models;
+﻿using MVC5App.Data;
+using MVC5App.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Services.Description;
@@ -10,6 +12,8 @@ namespace MVC5App.Controllers
 {
     public class HomeController : Controller
     {
+        private DataAPIRepository dataRepo = new DataAPIRepository();
+        private UserInfoModel userInfo;
         public ActionResult Index()
         {
             return View();
@@ -17,9 +21,26 @@ namespace MVC5App.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
+            var identity = (ClaimsIdentity)User.Identity;
+            int? Id;
+            try
+            {
+                Id = int.Parse(identity.FindFirst("UserID").Value);
+            }
+            catch
+            {
+                return RedirectToAction("UserNotFound", "Map");
+            }
 
-            return View();
+            try
+            {
+                userInfo = dataRepo.APIUserInfo(Id.Value);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            return View(userInfo);
         }
 
         public ActionResult Contact()
@@ -28,5 +49,6 @@ namespace MVC5App.Controllers
 
             return View();
         }
+        
     }
 }

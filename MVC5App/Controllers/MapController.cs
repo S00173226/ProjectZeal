@@ -71,6 +71,7 @@ namespace MVC5App.Controllers
         [HttpPost]
         public ActionResult Devices(DisplayLocationViewModel FormModel)
         {
+            
             if (ModelState.IsValid)
             {  
                 try
@@ -103,7 +104,8 @@ namespace MVC5App.Controllers
             //    JSONData = "[{\r\n   \"lng\":-7.646063 ,\r\n    \"lat\": 54.347592\r\n  }\r\n]",
 
             //};
-            return View();
+            FormModel.Devices = dataRepo.getDeviceliststore();
+            return View(FormModel);
         }
 
 

@@ -16,6 +16,6 @@ namespace MVC5App.Data
 
         Task<int> APIUserRecordID(string UserEmail);
 
-
+        UserInfoModel APIUserInfo(int UserID);
     }
 }
