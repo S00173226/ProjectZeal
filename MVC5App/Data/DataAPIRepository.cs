@@ -15,9 +15,15 @@ namespace MVC5App.Data
 {
     public class DataAPIRepository : IDataAPIRepository
     {
+        //Live Deployment Endpoint
         private readonly string APIEndPoint = "http://ec2-52-19-66-117.eu-west-1.compute.amazonaws.com:3000";
+        //Local Testing Endpoint
         //private readonly string APIEndPoint = "http://localhost:3000";
+        
+        //Holding variable for List of Devices 
         private static IEnumerable<SelectListItem> deviceListStore;
+
+        // API call to retrieve a list of Devices registered to a user
         public async Task<DisplayLocationViewModel> APIDevices(int UserID)
         {
             string devicesString;
@@ -47,14 +53,19 @@ namespace MVC5App.Data
             
             return new DisplayLocationViewModel();
         }
+        //Method to allow deviceListStore to be accessed outside the repo
         public IEnumerable<SelectListItem> getDeviceliststore()
         {
             return deviceListStore;
         }
 
+        //API request to retrieve Geolocation Data based on form results
         public async Task<DisplayLocationViewModel> APIGeoLocationRetrieval(DisplayLocationViewModel MapObj)
         {
+            //Local Deploy
             string dateFormat = "dd,MM,yyyy";
+            //AWS Deploy
+            //string dateFormat = "MM,dd,yyyy";
             string timeFormat = "HH:mm:ss";
             string APIStartDateTime = MapObj.Start.ToString(dateFormat) + " " + MapObj.StartTime.ToString(timeFormat);
             string APIEndDateTime = MapObj.End.ToString(dateFormat) + " " + MapObj.EndTime.ToString(timeFormat);
@@ -79,6 +90,7 @@ namespace MVC5App.Data
             
         }
 
+        // Requests the user id from API based on users email
         public async Task<int> APIUserRecordID(string UserEmail)
         {
             string dbUserID;
@@ -102,6 +114,7 @@ namespace MVC5App.Data
             
         }
 
+        //API call to create an entry for a user in the database
         public void UserCreation(RegisterViewModel registerViewModel)
         {
             if (APIUserRecordID(registerViewModel.Email).Result == 0)
@@ -122,6 +135,7 @@ namespace MVC5App.Data
             }
         }
 
+        //A json parser method to format the returned data into a readable object
         public DisplayLocationViewModel JsonParser(string json, int methodUsed)
         {
             JsonSerializerSettings settings = new JsonSerializerSettings
@@ -163,6 +177,7 @@ namespace MVC5App.Data
             return new DisplayLocationViewModel();
         }
 
+        //JSON parser to parse string into User Object
         public UserInfoModel JsonParser(string json)
         {
             JsonSerializerSettings settings = new JsonSerializerSettings
@@ -193,6 +208,7 @@ namespace MVC5App.Data
             return userInfo;
         }
 
+        //JSON convert to format a user's info into a structured JSON object to be sent to API
         public string ConvertToJson(RegisterViewModel registerViewModel)
         {
             UserCreateDTO user = new UserCreateDTO
@@ -217,6 +233,7 @@ namespace MVC5App.Data
             return json;
         }
 
+        //API call to retrieve all data pertaining to a user
         public UserInfoModel APIUserInfo(int UserID)
         {
             string devicesString;
@@ -247,37 +264,6 @@ namespace MVC5App.Data
             return new UserInfoModel();
             
         }
-        //        //MapLocationOBJ[] MapLocations = new MapLocationOBJ[items.Count];
-
-        //        //for (int i = 0; i < MapLocations.Length; i++)
-        //        //{
-        //        //    MapLocations[i] = items[i];
-        //        //}
-
-        //        //return MapLocations.ToList();
-        //        return
-        //    }
-
-        //private string DeviceJsonParser(MapLocationOBJ[] DeviceLocations)
-        //{
-        //    JsonSerializerSettings settings = new JsonSerializerSettings
-        //    {
-        //        TypeNameHandling = TypeNameHandling.Objects,
-        //        MetadataPropertyHandling = MetadataPropertyHandling.Ignore
-        //    };
-
-
-
-
-        //    string json = JsonConvert.SerializeObject(DeviceLocations, Formatting.Indented, settings);
-
-        //    if (json == "[]")
-        //    {
-        //        json = "[{\r\n   \"lng\":-7.646063 ,\r\n    \"lat\": 54.347592\r\n  }\r\n]";
-        //    }
-
-
-        //    return json;
-        //}
+        
     }
     }

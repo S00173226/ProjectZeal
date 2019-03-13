@@ -202,7 +202,6 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="AWSCognitoSettings\CognitoUserManager.cs" />
     <Compile Include="AWSCognitoSettings\CognitoUserStore.cs" />
-    <Compile Include="AWSCognitoSettings\TokenAuthorization.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />

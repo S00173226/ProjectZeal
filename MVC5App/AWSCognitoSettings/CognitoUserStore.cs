@@ -148,7 +148,7 @@ namespace MVC5App.AWSCognitoSettings
         //    throw new NotImplementedException();
         //}
 }
-
+    
     public class CognitoUser : Amazon.Extensions.CognitoAuthentication.CognitoUser
     {
         public string Email { get; set; }

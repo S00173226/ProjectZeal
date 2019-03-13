@@ -56,7 +56,7 @@ namespace MVC5App.AWSCognitoSettings
                 return false;
             }
         }
-
+        //Authenticates user on cognito
         public async Task<string> GetCredsAsync(string userID, string password)
         {
             
@@ -85,6 +85,7 @@ namespace MVC5App.AWSCognitoSettings
 
         }
 
+        //Verifies a user based on userEmail and verification code sent to their email
         public async Task<bool> VerifyUser(string verifyCode, string UserID)
         {
             bool userVerified;

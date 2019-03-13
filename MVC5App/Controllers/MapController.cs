@@ -24,8 +24,8 @@ namespace MVC5App.Controllers
     public class MapController : Controller
     {
 
-
-        private string dbCon = "Datasource=year3project.ceryng3iqugy.eu-west-1.rds.amazonaws.com;Initial Catalog='3rdYearProject';port=3306;username=Administrator;password=Administrator";
+        //Database connection string used for testing
+        //private string dbCon = "Datasource=year3project.ceryng3iqugy.eu-west-1.rds.amazonaws.com;Initial Catalog='3rdYearProject';port=3306;username=Administrator;password=Administrator";
         private DataAPIRepository dataRepo = new DataAPIRepository();
         private DisplayLocationViewModel model;
         
@@ -42,20 +42,7 @@ namespace MVC5App.Controllers
 
             try
             {
-                model = dataRepo.APIDevices(Id.Value).Result;
-                //model = new DisplayLocationViewModel()
-                //{
-                //    Devices = DatabaseDeviceRetrieval(Id ?? 1),
-                //    Start = DateTime.Today,
-                //    End = DateTime.Today,
-                //    UserID = Id ?? 1,
-                //    JSONData = "[{\r\n   \"lng\":-7.646063 ,\r\n    \"lat\": 54.347592\r\n  }\r\n]",
-
-
-
-
-                //};
-                
+                model = dataRepo.APIDevices(Id.Value).Result;         
                 ViewBag.DevicesModel = model;
                 ViewBag.UserID = model.UserID;
                 return View(model);
@@ -81,11 +68,8 @@ namespace MVC5App.Controllers
                     var res =  new DataAPIRepository().APIUserRecordID(identity.Name).Result;
                     FormModel.UserID = int.Parse(identity.FindFirst("UserID").Value);
                     model = dataRepo.APIGeoLocationRetrieval(FormModel).Result;
-
-
-                    
                     return View(model);
-                    // return RedirectToAction("Test", FormModel);
+                    
                 }
                 catch
                 {
@@ -95,15 +79,7 @@ namespace MVC5App.Controllers
                 
                 
             }
-            //model = new DisplayLocationViewModel
-            //{
-            //    Devices = DatabaseDeviceRetrieval(1),
-            //    Start = DateTime.Today,
-            //    End = DateTime.Today,
-            //    UserID = 1,
-            //    JSONData = "[{\r\n   \"lng\":-7.646063 ,\r\n    \"lat\": 54.347592\r\n  }\r\n]",
-
-            //};
+            
             FormModel.Devices = dataRepo.getDeviceliststore();
             return View(FormModel);
         }
@@ -127,37 +103,41 @@ namespace MVC5App.Controllers
             List<SelectListItem> items = new List<SelectListItem>();
 
             string JSONDevices = dataRepo.APIDevices(UserId).ToString();
-            //MySqlParameter user_ID = new MySqlParameter("userid", MySqlDbType.Int32);
-            //MySqlConnection connection = new MySqlConnection(dbCon);
 
-
-            //user_ID.Value = UserId;
-            //MySqlCommand command = new MySqlCommand();
-            //command.Connection = connection;
-            //command.CommandType = CommandType.StoredProcedure;
-            //command.CommandText = "Return_Device_Names";
-
-            //command.Parameters.Add(user_ID);
-            //connection.Open();
-            //MySqlDataReader reader = command.ExecuteReader();
-
-            //if (reader.HasRows)
-            //{
-            //    while (reader.Read())
-            //    {
-            //        items.Add(new SelectListItem
-            //        {
-            //            Text = reader["Device_Name"].ToString(),
-            //            Value = reader["Device_ID"].ToString()
-            //        });
-
-
-                    
-            //    }
-            //}
-            //connection.Close();
+            
             return  new SelectList(items, "Value" , "Text");
         }
+
+        //Redundant command concatinator to call sprocs from database directly
+        //MySqlParameter user_ID = new MySqlParameter("userid", MySqlDbType.Int32);
+        //MySqlConnection connection = new MySqlConnection(dbCon);
+
+
+        //user_ID.Value = UserId;
+        //MySqlCommand command = new MySqlCommand();
+        //command.Connection = connection;
+        //command.CommandType = CommandType.StoredProcedure;
+        //command.CommandText = "Return_Device_Names";
+
+        //command.Parameters.Add(user_ID);
+        //connection.Open();
+        //MySqlDataReader reader = command.ExecuteReader();
+
+        //if (reader.HasRows)
+        //{
+        //    while (reader.Read())
+        //    {
+        //        items.Add(new SelectListItem
+        //        {
+        //            Text = reader["Device_Name"].ToString(),
+        //            Value = reader["Device_ID"].ToString()
+        //        });
+
+
+
+        //    }
+        //}
+        //connection.Close();
 
         //private MapLocationOBJ[] GeoLocationRetrieval(DisplayLocationViewModel MapObj)
         //{
@@ -200,7 +180,7 @@ namespace MVC5App.Controllers
         //                DateAndTimeRecorded = reader["Date_Time_Recorded"].ToString(),
         //                Latitude = decimal.Parse(reader["Latitude"].ToString()),
         //                Longitude = decimal.Parse(reader["Longitude"].ToString()),
-                        
+
 
         //            });
 
@@ -215,7 +195,7 @@ namespace MVC5App.Controllers
         //    {
         //        MapLocations[i] = items[i];
         //    }
-                        
+
         //    return MapLocations;
         //}
 
@@ -228,8 +208,8 @@ namespace MVC5App.Controllers
         //        MetadataPropertyHandling = MetadataPropertyHandling.Ignore
         //    };
 
-            
-            
+
+
 
         //    string json = JsonConvert.SerializeObject(DeviceLocations, Formatting.Indented, settings);
 
@@ -237,18 +217,18 @@ namespace MVC5App.Controllers
         //    {
         //        json = "[{\r\n   \"lng\":-7.646063 ,\r\n    \"lat\": 54.347592\r\n  }\r\n]";
         //    }
-            
+
 
         //    return json;
         //}
 
-        
 
-        
 
-        
 
-        
+
+
+
+
 
 
     }
